@@ -3,11 +3,11 @@ package com.dauphine.blogger.controllers;
 import com.dauphine.blogger.dto.CategoryRequest;
 import com.dauphine.blogger.models.Category;
 import com.dauphine.blogger.models.Post;
+import com.dauphine.blogger.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,20 +30,10 @@ import java.util.UUID;
 )
 public class CategoryController {
 
-    /**
-     * The list of categories managed by this service.
-     */
-    private final List<Category> categories;
+    private final CategoryService categoryService;
 
-    /**
-     * Initializes the controller with some temporary categories.
-     */
-    public CategoryController() {
-        categories = new ArrayList<>();
-
-        categories.add(new Category(UUID.randomUUID(), "Science-Fiction"));
-        categories.add(new Category(UUID.randomUUID(), "Sport"));
-        categories.add(new Category(UUID.randomUUID(), "Theatre"));
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     /**
@@ -57,8 +47,7 @@ public class CategoryController {
             description = "Endpoint for retrieving all categories"
     )
     public List<Category> getCategories() {
-        // TODO
-        return null;
+        return categoryService.getCategories();
     }
 
     /**
@@ -73,14 +62,13 @@ public class CategoryController {
             description = "Endpoint for retrieving a category by ID"
     )
     public Category getCategory(@PathVariable UUID id) {
-        // TODO
-        return null;
+        return categoryService.getCategory(id);
     }
 
     /**
      * Endpoint for creating a new category.
      *
-     * @param category the request body containing category details
+     * @param categoryRequest the request body containing category details
      * @return response indicating the success or failure of the operation
      */
     @PostMapping()
@@ -88,16 +76,19 @@ public class CategoryController {
             summary = "Create a new category",
             description = "Endpoint for creating a new category"
     )
-    public Category postCategory(@RequestBody CategoryRequest category) {
+    public Category postCategory(@RequestBody CategoryRequest categoryRequest) {
+        Category category = categoryService.createCategory(categoryRequest.getCategoryName());
+
         // TODO
-        return null;
+
+        return category;
     }
 
     /**
      * Endpoint for updating the name of a category.
      *
-     * @param id       the ID of the category to update
-     * @param category the request body containing updated category details
+     * @param id              the ID of the category to update
+     * @param categoryRequest the request body containing updated category details
      * @return response indicating the success or failure of the operation
      */
     @PatchMapping("/{id}")
@@ -105,9 +96,12 @@ public class CategoryController {
             summary = "Update the name of a category",
             description = "Endpoint for updating the name of a category"
     )
-    public Category patchCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest category) {
+    public Category patchCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) {
+        Category category = categoryService.updateCategoryName(id, categoryRequest.getCategoryName());
+
         // TODO
-        return null;
+
+        return category;
     }
 
     /**
@@ -122,8 +116,7 @@ public class CategoryController {
             description = "Endpoint for deleting an existing category"
     )
     public boolean deletePost(@PathVariable UUID id) {
-        // TODO
-        return false;
+        return categoryService.deleteCategory(id);
     }
 
     /**
