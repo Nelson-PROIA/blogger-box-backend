@@ -1,9 +1,3 @@
-/**
- * This class contains endpoints for greeting messages.
- * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
- */
 package com.dauphine.blogger.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This class contains endpoints for greeting messages.
+ * <p>
+ * Author: Nelson PROIA
+ * Email: nelson.proia@dauphine.com
+ */
 @RestController
 @Tag(
         name = "Hello world API",
