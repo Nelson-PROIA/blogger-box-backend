@@ -17,8 +17,8 @@ import java.util.UUID;
  * including creating a new post, updating an existing post, deleting an existing post,
  * and retrieving all posts ordered by creation date.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @RestController
 @RequestMapping("/v1/posts")
@@ -70,11 +70,7 @@ public class PostController {
             description = "Endpoint for creating a new post"
     )
     public Post postPost(@RequestBody PostRequest postRequest) {
-        Post post = postService.createPost(postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
-
-        // TODO
-
-        return post;
+        return postService.createPost(postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
     }
 
     /**
@@ -90,11 +86,7 @@ public class PostController {
             description = "Endpoint for updating an existing post"
     )
     public Post putPost(@PathVariable UUID id, @RequestBody PostRequest postRequest) {
-        Post post = postService.update(id, postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
-
-        // TODO
-
-        return post;
+        return postService.update(id, postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
     }
 
     /**

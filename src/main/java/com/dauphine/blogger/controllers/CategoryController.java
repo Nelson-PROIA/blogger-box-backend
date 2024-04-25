@@ -20,8 +20,8 @@ import java.util.UUID;
  * updating the name of a category, and deleting an existing category. Additionally,
  * it allows retrieving all posts belonging to a specific category.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @RestController
 @RequestMapping("/v1/categories")
@@ -47,7 +47,7 @@ public class CategoryController {
      * Initializes the CategoryController with the specified CategoryService and PostService.
      *
      * @param categoryService The CategoryService to be used by the controller
-    * @param postService The PostService to be used by the controller
+     * @param postService     The PostService to be used by the controller
      */
     public CategoryController(CategoryService categoryService, PostService postService) {
         this.categoryService = categoryService;
@@ -95,11 +95,7 @@ public class CategoryController {
             description = "Endpoint for creating a new category"
     )
     public Category postCategory(@RequestBody CategoryRequest categoryRequest) {
-        Category category = categoryService.createCategory(categoryRequest.getCategoryName());
-
-        // TODO
-
-        return category;
+        return categoryService.createCategory(categoryRequest.getCategoryName());
     }
 
     /**
@@ -115,11 +111,7 @@ public class CategoryController {
             description = "Endpoint for updating the name of a category"
     )
     public Category patchCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) {
-        Category category = categoryService.updateCategoryName(id, categoryRequest.getCategoryName());
-
-        // TODO
-
-        return category;
+        return categoryService.updateCategoryName(id, categoryRequest.getCategoryName());
     }
 
     /**

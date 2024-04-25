@@ -13,8 +13,8 @@ import java.util.UUID;
  * This class encapsulates information about a blog post, including its ID, title, content,
  * creation date, and category.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.eu
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @Entity
 @Table(name = "post")

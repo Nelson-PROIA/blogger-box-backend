@@ -8,8 +8,8 @@ import java.util.UUID;
  * This class encapsulates the data required to create or update a blog post,
  * including the title, content, and category ID.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.eu
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 public class PostRequest {
 

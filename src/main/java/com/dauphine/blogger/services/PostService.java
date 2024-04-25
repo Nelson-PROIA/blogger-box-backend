@@ -11,10 +11,18 @@ import java.util.UUID;
  * This interface defines methods for retrieving, creating, updating, and deleting posts,
  * as well as retrieving posts by category.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.eu
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 public interface PostService {
+
+    /**
+     * Retrieves a post by its ID.
+     *
+     * @param id The ID of the post
+     * @return The post with the specified ID, or null if not found
+     */
+    Post getPost(UUID id);
 
     /**
      * Retrieves all posts.
@@ -30,14 +38,6 @@ public interface PostService {
      * @return A list of posts belonging to the specified category
      */
     List<Post> getPostsByCategoryId(UUID categoryId);
-
-    /**
-     * Retrieves a post by its ID.
-     *
-     * @param id The ID of the post
-     * @return The post with the specified ID, or null if not found
-     */
-    Post getPost(UUID id);
 
     /**
      * Creates a new post with the specified title, content, and category ID.

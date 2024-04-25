@@ -10,8 +10,8 @@ import java.util.UUID;
  * <p>
  * This interface defines methods for retrieving, creating, updating, and deleting categories.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 public interface CategoryService {
 

@@ -2,45 +2,54 @@ package com.dauphine.blogger.services.implementations;
 
 import com.dauphine.blogger.models.Category;
 import com.dauphine.blogger.models.Post;
+import com.dauphine.blogger.repositories.CategoryRepository;
+import com.dauphine.blogger.repositories.PostRepository;
 import com.dauphine.blogger.services.PostService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Implementation of the PostService interface.
- * <p>
- * This class provides methods to manage blog posts, including retrieving, creating, updating,
- * and deleting posts.
- * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.eu
+ * Provides methods to manage blog posts, including retrieving, creating, updating, and deleting posts.
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @Service
 public class PostServiceImplementation implements PostService {
 
     /**
-     * The list of posts managed by this service.
+     * Repository for managing post entities.
      */
-    List<Post> posts;
+    private final PostRepository postRepository;
 
     /**
-     * Constructs a new PostServiceImplementation object and initializes the list of posts.
+     * Repository for managing category entities.
      */
-    public PostServiceImplementation() {
-        posts = new ArrayList<>();
+    private final CategoryRepository categoryRepository;
 
-        Category blank = new Category("Blank");
+    /**
+     * Constructs a new PostServiceImplementation object with the specified repositories.
+     *
+     * @param postRepository     Repository for managing post entities
+     * @param categoryRepository Repository for managing category entities
+     */
+    public PostServiceImplementation(PostRepository postRepository, CategoryRepository categoryRepository) {
+        this.postRepository = postRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
-        Post postA = new Post("Title A", "Content A", blank);
-        Post postB = new Post("Title B", "Content B", blank);
-        Post postC = new Post("Title C", "Content C", blank);
-
-        posts.add(postA);
-        posts.add(postB);
-        posts.add(postC);
+    /**
+     * Retrieves a post by its ID.
+     *
+     * @param id The ID of the post to retrieve
+     * @return The post with the specified ID
+     * @throws RuntimeException if the post with the specified ID does not exist
+     */
+    public Post getPost(UUID id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post with id " + id + " does not exist!"));
     }
 
     /**
@@ -50,7 +59,7 @@ public class PostServiceImplementation implements PostService {
      */
     @Override
     public List<Post> getPosts() {
-        return posts;
+        return postRepository.findAllByOrderByCreatedDate();
     }
 
     /**
@@ -61,23 +70,7 @@ public class PostServiceImplementation implements PostService {
      */
     @Override
     public List<Post> getPostsByCategoryId(UUID categoryId) {
-        return posts.stream()
-                .filter(post -> categoryId.equals(post.getCategory().getId()))
-                .toList();
-    }
-
-    /**
-     * Retrieves a post by its ID.
-     *
-     * @param id The ID of the post
-     * @return The post with the specified ID, or null if not found
-     */
-    @Override
-    public Post getPost(UUID id) {
-        return posts.stream()
-                .filter(post -> id.equals(post.getId()))
-                .findFirst()
-                .orElse(null);
+        return postRepository.findAllByCategoryId(categoryId);
     }
 
     /**
@@ -87,16 +80,16 @@ public class PostServiceImplementation implements PostService {
      * @param content    The content of the post
      * @param categoryId The ID of the category
      * @return The newly created post
+     * @throws RuntimeException if the specified category ID does not exist
      */
     @Override
     public Post createPost(String title, String content, UUID categoryId) {
-        Category blank = new Category("Blank");
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category with id " + categoryId + " does not exist!"));
 
-        Post post = new Post(title, content, blank);
+        Post post = new Post(title, content, category);
 
-        posts.add(post);
-
-        return post;
+        return postRepository.save(post);
     }
 
     /**
@@ -107,18 +100,20 @@ public class PostServiceImplementation implements PostService {
      * @param content    The new content for the post
      * @param categoryId The ID of the category
      * @return The updated post
+     * @throws RuntimeException if the specified post ID or category ID does not exist
      */
     @Override
     public Post update(UUID id, String title, String content, UUID categoryId) {
-        Category blank = new Category("Blank");
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category with id " + categoryId + " does not exist!"));
 
         Post post = getPost(id);
 
         post.setTitle(title);
         post.setContent(content);
-        post.setCategory(blank);
+        post.setCategory(category);
 
-        return post;
+        return postRepository.save(post);
     }
 
     /**
@@ -129,7 +124,11 @@ public class PostServiceImplementation implements PostService {
      */
     @Override
     public boolean deletePost(UUID id) {
-        return posts.removeIf(post -> id.equals(post.getId()));
+        boolean deleted = postRepository.existsById(id);
+
+        postRepository.deleteById(id);
+
+        return deleted;
     }
 
 }

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * This class contains endpoints for greeting messages.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @RestController
 @Tag(

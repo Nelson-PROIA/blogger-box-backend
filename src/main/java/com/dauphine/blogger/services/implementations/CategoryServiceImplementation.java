@@ -10,18 +10,16 @@ import java.util.UUID;
 
 /**
  * Implementation of the CategoryService interface.
- * <p>
- * This class provides methods to manage categories, including retrieving, creating, updating,
+ * Provides methods to manage categories, including retrieving, creating, updating,
  * and deleting categories.
- * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @Service
 public class CategoryServiceImplementation implements CategoryService {
 
     /**
-     * The repository for managing categories.
+     * Repository for managing categories.
      */
     private final CategoryRepository categoryRepository;
 
@@ -49,11 +47,12 @@ public class CategoryServiceImplementation implements CategoryService {
      *
      * @param id The ID of the category to retrieve
      * @return The category with the specified ID, or null if not found
+     * @throws RuntimeException if the category with the specified ID does not exist
      */
     @Override
     public Category getCategory(UUID id) {
         return categoryRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Category with id " + id + " does not exist!"));
     }
 
     /**
@@ -61,9 +60,16 @@ public class CategoryServiceImplementation implements CategoryService {
      *
      * @param name The name of the new category
      * @return The newly created category
+     * @throws RuntimeException if a category with the same name already exists
      */
     @Override
     public Category createCategory(String name) {
+        final boolean alreadyExistsByName = categoryRepository.existsByName(name);
+
+        if (alreadyExistsByName) {
+            throw new RuntimeException("Category with name " + name + " already exists!");
+        }
+
         Category category = new Category(name);
 
         return categoryRepository.save(category);
@@ -80,13 +86,9 @@ public class CategoryServiceImplementation implements CategoryService {
     public Category updateCategoryName(UUID id, String name) {
         Category category = getCategory(id);
 
-        if (category != null) {
-            category.setName(name);
+        category.setName(name);
 
-            categoryRepository.save(category);
-        }
-
-        return category;
+        return categoryRepository.save(category);
     }
 
     /**

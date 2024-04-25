@@ -6,8 +6,8 @@ package com.dauphine.blogger.dto;
  * This class encapsulates the data required to create or update a blog category,
  * including the category name.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.eu
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 public class CategoryRequest {
 

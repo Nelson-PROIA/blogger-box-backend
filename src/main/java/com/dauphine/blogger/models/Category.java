@@ -12,8 +12,8 @@ import java.util.UUID;
  * <p>
  * This class encapsulates the properties of a blog category, including its unique identifier and name.
  * <p>
- * Author: Nelson PROIA
- * Email: nelson.proia@dauphine.com
+ *
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @Entity
 @Table(name = "category")
