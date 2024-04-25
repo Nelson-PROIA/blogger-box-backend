@@ -12,7 +12,14 @@ import java.util.UUID;
  */
 public class Category {
 
+    /**
+     * The unique identifier of the category.
+     */
     private final UUID id;
+
+    /**
+     * The name of the category.
+     */
     private String name;
 
     /**

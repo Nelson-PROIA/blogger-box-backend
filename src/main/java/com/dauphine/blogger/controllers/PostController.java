@@ -1,14 +1,12 @@
 package com.dauphine.blogger.controllers;
 
 import com.dauphine.blogger.dto.PostRequest;
-import com.dauphine.blogger.models.Category;
 import com.dauphine.blogger.models.Post;
+import com.dauphine.blogger.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,19 +29,19 @@ import java.util.UUID;
 public class PostController {
 
     /**
-     * The list of posts managed by this service.
+     * Service for managing posts
      */
-    List<Post> posts;
+    private final PostService postService;
 
     /**
-     * Initializes the controller with some temporary posts.
+     * Constructor for the PostController class.
+     * <p>
+     * Initializes the PostController with the specified PostService.
+     *
+     * @param postService The PostService to be used by the controller
      */
-    public PostController() {
-        posts = new ArrayList<>();
-
-        posts.add(new Post(UUID.randomUUID(), "Title A", "Content A", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
-        posts.add(new Post(UUID.randomUUID(), "Title B", "Content B", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
-        posts.add(new Post(UUID.randomUUID(), "Title C", "Content C", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
     /**
@@ -57,14 +55,13 @@ public class PostController {
             description = "Endpoint for retrieving all posts ordered by creation date"
     )
     public List<Post> getPosts() {
-        // TODO
-        return null;
+        return postService.getPosts();
     }
 
     /**
      * Endpoint for creating a new post.
      *
-     * @param post the request body containing post details
+     * @param postRequest the request body containing post details
      * @return response indicating the success or failure of the operation
      */
     @PostMapping()
@@ -72,16 +69,19 @@ public class PostController {
             summary = "Create a new post",
             description = "Endpoint for creating a new post"
     )
-    public Post postPost(@RequestBody PostRequest post) {
+    public Post postPost(@RequestBody PostRequest postRequest) {
+        Post post = postService.createPost(postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
+
         // TODO
-        return null;
+
+        return post;
     }
 
     /**
      * Endpoint for updating an existing post.
      *
-     * @param id   the ID of the post to be updated
-     * @param post the request body containing updated post details
+     * @param id          the ID of the post to be updated
+     * @param postRequest the request body containing updated post details
      * @return response indicating the success or failure of the operation
      */
     @PutMapping("/{id}")
@@ -89,9 +89,12 @@ public class PostController {
             summary = "Update an existing post",
             description = "Endpoint for updating an existing post"
     )
-    public Post putPost(@PathVariable UUID id, @RequestBody PostRequest post) {
+    public Post putPost(@PathVariable UUID id, @RequestBody PostRequest postRequest) {
+        Post post = postService.update(id, postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
+
         // TODO
-        return null;
+
+        return post;
     }
 
     /**
@@ -106,8 +109,7 @@ public class PostController {
             description = "Endpoint for deleting an existing post"
     )
     public boolean deletePost(@PathVariable UUID id) {
-        // TODO
-        return false;
+        return postService.deletePost(id);
     }
 
 }

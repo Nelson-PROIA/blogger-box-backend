@@ -26,7 +26,7 @@ public class PostRequest {
     /**
      * The ID of the category to which the post belongs.
      */
-    private UUID categoryId;
+    private UUID postCategoryId;
 
     /**
      * Retrieves the title of the post.
@@ -69,17 +69,17 @@ public class PostRequest {
      *
      * @return The ID of the category
      */
-    public UUID getCategoryId() {
-        return categoryId;
+    public UUID getPostCategoryId() {
+        return postCategoryId;
     }
 
     /**
      * Sets the ID of the category to which the post belongs.
      *
-     * @param categoryId The ID of the category
+     * @param postCategoryId The ID of the category
      */
-    public void setCategoryId(UUID categoryId) {
-        this.categoryId = categoryId;
+    public void setPostCategoryId(UUID postCategoryId) {
+        this.postCategoryId = postCategoryId;
     }
 
 }

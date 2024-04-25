@@ -18,18 +18,22 @@ public class Post {
      * The unique identifier of the post.
      */
     private final UUID id;
+
     /**
      * The timestamp when the post was created.
      */
     private final Timestamp createdDate;
+
     /**
      * The title of the post.
      */
     private String title;
+
     /**
      * The content of the post.
      */
     private String content;
+
     /**
      * The category to which the post belongs.
      */

@@ -4,6 +4,7 @@ import com.dauphine.blogger.dto.CategoryRequest;
 import com.dauphine.blogger.models.Category;
 import com.dauphine.blogger.models.Post;
 import com.dauphine.blogger.services.CategoryService;
+import com.dauphine.blogger.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,27 @@ import java.util.UUID;
 )
 public class CategoryController {
 
+    /**
+     * Service for managing categories
+     */
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    /**
+     * Service for managing posts
+     */
+    private final PostService postService;
+
+    /**
+     * Constructor for the CategoryController class.
+     * <p>
+     * Initializes the CategoryController with the specified CategoryService and PostService.
+     *
+     * @param categoryService The CategoryService to be used by the controller
+    * @param postService The PostService to be used by the controller
+     */
+    public CategoryController(CategoryService categoryService, PostService postService) {
         this.categoryService = categoryService;
+        this.postService = postService;
     }
 
     /**
@@ -131,8 +149,7 @@ public class CategoryController {
             description = "Endpoint for retrieving all posts belonging to a specific category"
     )
     public List<Post> getPostsForCategory(@PathVariable UUID id) {
-        // TODO
-        return null;
+        return postService.getPostsByCategoryId(id);
     }
 
 }
