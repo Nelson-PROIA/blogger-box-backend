@@ -1,6 +1,10 @@
 package com.dauphine.blogger.models;
 
-import java.sql.Timestamp;
+import jakarta.persistence.*;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 /**
@@ -12,35 +16,56 @@ import java.util.UUID;
  * Author: Nelson PROIA
  * Email: nelson.proia@dauphine.eu
  */
+@Entity
+@Table(name = "post")
 public class Post {
 
     /**
      * The unique identifier of the post.
      */
-    private final UUID id;
-
-    /**
-     * The timestamp when the post was created.
-     */
-    private final Timestamp createdDate;
+    @Id
+    @Column(name = "id")
+    private UUID id;
 
     /**
      * The title of the post.
      */
+    @Column(name = "title")
     private String title;
 
     /**
      * The content of the post.
      */
+    @Column(name = "content")
     private String content;
+
+    /**
+     * The timestamp when the post was created.
+     */
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
 
     /**
      * The category to which the post belongs.
      */
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     /**
-     * Constructs a new Post object with the specified parameters.
+     * Default constructor.
+     * Initializes id, title, content, createdDate, and category to null.
+     */
+    public Post() {
+        this.id = null;
+        this.title = null;
+        this.content = null;
+        this.createdDate = null;
+        this.category = null;
+    }
+
+    /**
+     * Constructs a Post object with the specified ID, title, content, creation date, and category.
      *
      * @param id          The unique identifier of the post
      * @param title       The title of the post
@@ -48,12 +73,24 @@ public class Post {
      * @param createdDate The timestamp when the post was created
      * @param category    The category to which the post belongs
      */
-    public Post(UUID id, String title, String content, Timestamp createdDate, Category category) {
+    public Post(UUID id, String title, String content, LocalDateTime createdDate, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdDate = createdDate;
         this.category = category;
+    }
+
+    /**
+     * Constructs a Post object with a random UUID, the specified title, content, and category.
+     * The created date will be set to the current system time.
+     *
+     * @param title    The title of the post
+     * @param content  The content of the post
+     * @param category The category to which the post belongs
+     */
+    public Post(String title, String content, Category category) {
+        this(UUID.randomUUID(), title, content, LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault()), category);
     }
 
     /**
@@ -63,6 +100,15 @@ public class Post {
      */
     public UUID getId() {
         return id;
+    }
+
+    /**
+     * Sets the ID of the post.
+     *
+     * @param id The ID of the post
+     */
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     /**
@@ -106,8 +152,17 @@ public class Post {
      *
      * @return The timestamp of the post creation date
      */
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
+    }
+
+    /**
+     * Sets the timestamp when the post was created.
+     *
+     * @param createdDate The timestamp of the post creation date
+     */
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     /**

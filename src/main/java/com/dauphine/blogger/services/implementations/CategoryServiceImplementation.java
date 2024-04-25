@@ -1,10 +1,10 @@
 package com.dauphine.blogger.services.implementations;
 
 import com.dauphine.blogger.models.Category;
+import com.dauphine.blogger.repositories.CategoryRepository;
 import com.dauphine.blogger.services.CategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,19 +21,17 @@ import java.util.UUID;
 public class CategoryServiceImplementation implements CategoryService {
 
     /**
-     * The list of categories managed by this service.
+     * The repository for managing categories.
      */
-    private final List<Category> categories;
+    private final CategoryRepository categoryRepository;
 
     /**
-     * Constructs a new CategoryServiceImplementation object and initializes the list of categories.
+     * Constructs a CategoryServiceImplementation object with the specified CategoryRepository.
+     *
+     * @param categoryRepository The repository for managing categories
      */
-    public CategoryServiceImplementation() {
-        categories = new ArrayList<>();
-
-        categories.add(new Category(UUID.randomUUID(), "Science-Fiction"));
-        categories.add(new Category(UUID.randomUUID(), "Sport"));
-        categories.add(new Category(UUID.randomUUID(), "Theatre"));
+    public CategoryServiceImplementation(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     /**
@@ -43,7 +41,7 @@ public class CategoryServiceImplementation implements CategoryService {
      */
     @Override
     public List<Category> getCategories() {
-        return categories;
+        return categoryRepository.findAll();
     }
 
     /**
@@ -54,9 +52,7 @@ public class CategoryServiceImplementation implements CategoryService {
      */
     @Override
     public Category getCategory(UUID id) {
-        return categories.stream()
-                .filter(category -> id.equals(category.getId()))
-                .findFirst()
+        return categoryRepository.findById(id)
                 .orElse(null);
     }
 
@@ -68,11 +64,9 @@ public class CategoryServiceImplementation implements CategoryService {
      */
     @Override
     public Category createCategory(String name) {
-        Category category = new Category(UUID.randomUUID(), name);
+        Category category = new Category(name);
 
-        categories.add(category);
-
-        return category;
+        return categoryRepository.save(category);
     }
 
     /**
@@ -88,6 +82,8 @@ public class CategoryServiceImplementation implements CategoryService {
 
         if (category != null) {
             category.setName(name);
+
+            categoryRepository.save(category);
         }
 
         return category;
@@ -101,7 +97,11 @@ public class CategoryServiceImplementation implements CategoryService {
      */
     @Override
     public boolean deleteCategory(UUID id) {
-        return categories.removeIf(category -> id.equals(category.getId()));
+        boolean deleted = categoryRepository.existsById(id);
+
+        categoryRepository.deleteById(id);
+
+        return deleted;
     }
 
 }

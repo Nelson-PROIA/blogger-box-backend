@@ -5,7 +5,6 @@ import com.dauphine.blogger.models.Post;
 import com.dauphine.blogger.services.PostService;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,9 +32,15 @@ public class PostServiceImplementation implements PostService {
     public PostServiceImplementation() {
         posts = new ArrayList<>();
 
-        posts.add(new Post(UUID.randomUUID(), "Title A", "Content A", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
-        posts.add(new Post(UUID.randomUUID(), "Title B", "Content B", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
-        posts.add(new Post(UUID.randomUUID(), "Title C", "Content C", new Timestamp(System.currentTimeMillis()), new Category(UUID.randomUUID(), "null")));
+        Category blank = new Category("Blank");
+
+        Post postA = new Post("Title A", "Content A", blank);
+        Post postB = new Post("Title B", "Content B", blank);
+        Post postC = new Post("Title C", "Content C", blank);
+
+        posts.add(postA);
+        posts.add(postB);
+        posts.add(postC);
     }
 
     /**
@@ -85,11 +90,9 @@ public class PostServiceImplementation implements PostService {
      */
     @Override
     public Post createPost(String title, String content, UUID categoryId) {
-        Timestamp createdDate = new Timestamp(System.currentTimeMillis());
+        Category blank = new Category("Blank");
 
-        Category category = new Category(UUID.randomUUID(), "null");
-
-        Post post = new Post(UUID.randomUUID(), title, content, createdDate, category);
+        Post post = new Post(title, content, blank);
 
         posts.add(post);
 
@@ -107,13 +110,13 @@ public class PostServiceImplementation implements PostService {
      */
     @Override
     public Post update(UUID id, String title, String content, UUID categoryId) {
-        Category category = new Category(UUID.randomUUID(), "null");
+        Category blank = new Category("Blank");
 
         Post post = getPost(id);
 
         post.setTitle(title);
         post.setContent(content);
-        post.setCategory(category);
+        post.setCategory(blank);
 
         return post;
     }
