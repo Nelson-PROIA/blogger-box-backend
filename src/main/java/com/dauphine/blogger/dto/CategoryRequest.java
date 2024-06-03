@@ -1,11 +1,10 @@
 package com.dauphine.blogger.dto;
 
 /**
+ * <p>
  * Represents a request for creating or updating a blog category.
- * <p>
- * This class encapsulates the data required to create or update a blog category,
- * including the category name.
- * <p>
+ * This class encapsulates the data required to create or update a blog category, including the category name.
+ * </p>
  *
  * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */

@@ -1,5 +1,6 @@
 package com.dauphine.blogger.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -8,11 +9,10 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 /**
+ * <p>
  * Represents a blog post.
- * <p>
- * This class encapsulates information about a blog post, including its ID, title, content,
- * creation date, and category.
- * <p>
+ * This class encapsulates information about a blog post, including its ID, title, content, creation date, and category.
+ * </p>
  *
  * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
@@ -43,6 +43,7 @@ public class Post {
      * The timestamp when the post was created.
      */
     @Column(name = "created_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
     /**
@@ -57,11 +58,7 @@ public class Post {
      * Initializes id, title, content, createdDate, and category to null.
      */
     public Post() {
-        this.id = null;
-        this.title = null;
-        this.content = null;
-        this.createdDate = null;
-        this.category = null;
+        this(null, null, null, null, null);
     }
 
     /**

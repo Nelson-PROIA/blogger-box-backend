@@ -1,5 +1,7 @@
 package com.dauphine.blogger.services.implementations;
 
+import com.dauphine.blogger.exceptions.CategoryNotFoundByIdException;
+import com.dauphine.blogger.exceptions.PostNotFoundByIdException;
 import com.dauphine.blogger.models.Category;
 import com.dauphine.blogger.models.Post;
 import com.dauphine.blogger.repositories.CategoryRepository;
@@ -11,8 +13,20 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * <p>
  * Implementation of the PostService interface.
  * Provides methods to manage blog posts, including retrieving, creating, updating, and deleting posts.
+ * </p>
+ *
+ * <p>
+ * All methods in this class may throw {@link PostNotFoundByIdException} if the specified post ID does not exist.
+ * For methods that involve creating or updating posts, they may also throw {@link CategoryNotFoundByIdException} if the specified category ID does not exist.
+ * </p>
+ *
+ * <p>
+ * This class is responsible for implementing the business logic associated with post management.
+ * It interacts with the underlying data source through PostRepository and CategoryRepository.
+ * </p>
  *
  * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
@@ -45,11 +59,11 @@ public class PostServiceImplementation implements PostService {
      *
      * @param id The ID of the post to retrieve
      * @return The post with the specified ID
-     * @throws RuntimeException if the post with the specified ID does not exist
+     * @throws PostNotFoundByIdException if the post with the specified ID does not exist
      */
-    public Post getPost(UUID id) {
+    public Post getPost(UUID id) throws PostNotFoundByIdException {
         return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post with id " + id + " does not exist!"));
+                .orElseThrow(() -> new PostNotFoundByIdException(id));
     }
 
     /**
@@ -60,6 +74,17 @@ public class PostServiceImplementation implements PostService {
     @Override
     public List<Post> getPosts() {
         return postRepository.findAllByOrderByCreatedDate();
+    }
+
+    /**
+     * Retrieves posts by topic.
+     *
+     * @param topic The topic of the posts to retrieve
+     * @return A list of posts with the specified topic
+     */
+    @Override
+    public List<Post> getPostsByTopic(String topic) {
+        return postRepository.findByTitleOrContentContainingKeyword(topic);
     }
 
     /**
@@ -80,12 +105,12 @@ public class PostServiceImplementation implements PostService {
      * @param content    The content of the post
      * @param categoryId The ID of the category
      * @return The newly created post
-     * @throws RuntimeException if the specified category ID does not exist
+     * @throws CategoryNotFoundByIdException if the specified category ID does not exist
      */
     @Override
-    public Post createPost(String title, String content, UUID categoryId) {
+    public Post createPost(String title, String content, UUID categoryId) throws CategoryNotFoundByIdException {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category with id " + categoryId + " does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundByIdException(categoryId));
 
         Post post = new Post(title, content, category);
 
@@ -100,12 +125,13 @@ public class PostServiceImplementation implements PostService {
      * @param content    The new content for the post
      * @param categoryId The ID of the category
      * @return The updated post
-     * @throws RuntimeException if the specified post ID or category ID does not exist
+     * @throws CategoryNotFoundByIdException if the specified category ID does not exist
+     * @throws PostNotFoundByIdException     if the specified post ID does not exist
      */
     @Override
-    public Post update(UUID id, String title, String content, UUID categoryId) {
+    public Post update(UUID id, String title, String content, UUID categoryId) throws CategoryNotFoundByIdException, PostNotFoundByIdException {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category with id " + categoryId + " does not exist!"));
+                .orElseThrow(() -> new CategoryNotFoundByIdException(categoryId));
 
         Post post = getPost(id);
 
@@ -121,14 +147,19 @@ public class PostServiceImplementation implements PostService {
      *
      * @param id The ID of the post to delete
      * @return true if the post was deleted successfully, false otherwise
+     * @throws PostNotFoundByIdException if the specified post ID does not exist
      */
     @Override
-    public boolean deletePost(UUID id) {
-        boolean deleted = postRepository.existsById(id);
+    public boolean deletePost(UUID id) throws PostNotFoundByIdException {
+        boolean exists = postRepository.existsById(id);
+
+        if (!exists) {
+            throw new PostNotFoundByIdException(id);
+        }
 
         postRepository.deleteById(id);
 
-        return deleted;
+        return true;
     }
 
 }

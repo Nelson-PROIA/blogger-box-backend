@@ -8,10 +8,10 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 
 /**
+ * <p>
  * Represents a category in a blog.
- * <p>
  * This class encapsulates the properties of a blog category, including its unique identifier and name.
- * <p>
+ * </p>
  *
  * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */

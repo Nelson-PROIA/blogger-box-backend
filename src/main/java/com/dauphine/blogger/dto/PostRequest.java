@@ -3,11 +3,10 @@ package com.dauphine.blogger.dto;
 import java.util.UUID;
 
 /**
+ * <p>
  * Represents a request for creating or updating a blog post.
- * <p>
- * This class encapsulates the data required to create or update a blog post,
- * including the title, content, and category ID.
- * <p>
+ * This class encapsulates the data required to create or update a blog post, including the title, content, and category ID.
+ * </p>
  *
  * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
