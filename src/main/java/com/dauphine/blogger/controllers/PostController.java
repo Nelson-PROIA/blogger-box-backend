@@ -131,7 +131,7 @@ public class PostController {
      *
      * @param id the ID of the post to be deleted
      * @return response indicating the success or failure of the operation
-     * @throws PostNotFoundByIdException     if the specified post ID does not exist
+     * @throws PostNotFoundByIdException if the specified post ID does not exist
      */
     @DeleteMapping("/{id}")
     @Operation(

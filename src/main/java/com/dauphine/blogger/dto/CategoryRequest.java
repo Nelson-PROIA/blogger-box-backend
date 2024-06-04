@@ -16,6 +16,21 @@ public class CategoryRequest {
     private String categoryName;
 
     /**
+     * Default constructor.
+     */
+    public CategoryRequest() {
+    }
+
+    /**
+     * Constructs a new CategoryRequest with the specified category name.
+     *
+     * @param categoryName The name of the category
+     */
+    public CategoryRequest(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    /**
      * Retrieves the name of the category.
      *
      * @return The name of the category

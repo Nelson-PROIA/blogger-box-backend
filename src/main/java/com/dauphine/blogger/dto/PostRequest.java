@@ -28,6 +28,25 @@ public class PostRequest {
     private UUID postCategoryId;
 
     /**
+     * Default constructor.
+     */
+    public PostRequest() {
+    }
+
+    /**
+     * Constructs a new PostRequest with the specified title, content, and category ID.
+     *
+     * @param title      The title of the post
+     * @param content    The content of the post
+     * @param categoryId The ID of the category to which the post belongs
+     */
+    public PostRequest(String title, String content, UUID categoryId) {
+        this.postTitle = title;
+        this.postContent = content;
+        this.postCategoryId = categoryId;
+    }
+
+    /**
      * Retrieves the title of the post.
      *
      * @return The title of the post
