@@ -30,9 +30,7 @@ import java.util.UUID;
  * it allows retrieving all posts belonging to a specific category.
  * </p>
  *
- * <p>
- * Author: Nelson PROIA <nelson.proia@dauphine.eu>
- * </p>
+ * @author Nelson PROIA <nelson.proia@dauphine.eu>
  */
 @RestController
 @RequestMapping("/v1/categories")
