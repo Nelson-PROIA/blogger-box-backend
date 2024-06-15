@@ -124,7 +124,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     public ResponseEntity<Category> postCategory(@RequestBody CategoryRequest categoryRequest) throws CategoryAlreadyExistsException {
-        final Category category = categoryService.createCategory(categoryRequest.getCategoryName());
+        final Category category = categoryService.createCategory(categoryRequest.getName());
 
         return ResponseEntity.created(URI.create("v1/categories/" + category.getId())).body(category);
     }
@@ -138,7 +138,7 @@ public class CategoryController {
      * @throws CategoryNotFoundByIdException  if the category with the specified ID is not found
      * @throws CategoryAlreadyExistsException if a category with the same name already exists
      */
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     @Operation(
             summary = "Update the name of a category",
             description = "Endpoint for updating the name of a category"
@@ -149,7 +149,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Category not found")
     })
     public ResponseEntity<Category> patchCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) throws CategoryNotFoundByIdException, CategoryAlreadyExistsException {
-        final Category category = categoryService.updateCategoryName(id, categoryRequest.getCategoryName());
+        final Category category = categoryService.updateCategoryName(id, categoryRequest.getName());
 
         return ResponseEntity.ok(category);
     }
@@ -169,7 +169,8 @@ public class CategoryController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Category deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Category not found")
+            @ApiResponse(responseCode = "404", description = "Category not found"),
+            @ApiResponse(responseCode = "409", description = "Constraint violation")
     })
     public ResponseEntity<Boolean> deletePost(@PathVariable UUID id) throws CategoryNotFoundByIdException {
         final boolean deletionSuccessful = categoryService.deleteCategory(id);

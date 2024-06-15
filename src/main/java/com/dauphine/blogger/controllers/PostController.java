@@ -96,7 +96,7 @@ public class PostController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     public ResponseEntity<Post> postPost(@RequestBody PostRequest postRequest) throws CategoryNotFoundByIdException {
-        final Post post = postService.createPost(postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
+        final Post post = postService.createPost(postRequest.getTitle(), postRequest.getContent(), postRequest.getCategoryId());
 
         return ResponseEntity.created(URI.create("/v1/posts/" + post.getId())).body(post);
     }
@@ -121,7 +121,7 @@ public class PostController {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
     public ResponseEntity<Post> putPost(@PathVariable UUID id, @RequestBody PostRequest postRequest) throws CategoryNotFoundByIdException, PostNotFoundByIdException {
-        final Post post = postService.update(id, postRequest.getPostTitle(), postRequest.getPostContent(), postRequest.getPostCategoryId());
+        final Post post = postService.update(id, postRequest.getTitle(), postRequest.getContent(), postRequest.getCategoryId());
 
         return ResponseEntity.ok(post);
     }

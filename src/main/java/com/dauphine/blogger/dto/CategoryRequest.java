@@ -13,7 +13,7 @@ public class CategoryRequest {
     /**
      * The name of the category.
      */
-    private String categoryName;
+    private String name;
 
     /**
      * Default constructor.
@@ -24,10 +24,10 @@ public class CategoryRequest {
     /**
      * Constructs a new CategoryRequest with the specified category name.
      *
-     * @param categoryName The name of the category
+     * @param name The name of the category
      */
-    public CategoryRequest(String categoryName) {
-        this.categoryName = categoryName;
+    public CategoryRequest(String name) {
+        this.name = name;
     }
 
     /**
@@ -35,17 +35,17 @@ public class CategoryRequest {
      *
      * @return The name of the category
      */
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
     /**
      * Sets the name of the category.
      *
-     * @param categoryName The name of the category
+     * @param name The name of the category
      */
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

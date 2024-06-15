@@ -15,17 +15,17 @@ public class PostRequest {
     /**
      * The title of the post.
      */
-    private String postTitle;
+    private String title;
 
     /**
      * The content of the post.
      */
-    private String postContent;
+    private String content;
 
     /**
      * The ID of the category to which the post belongs.
      */
-    private UUID postCategoryId;
+    private UUID categoryId;
 
     /**
      * Default constructor.
@@ -41,9 +41,9 @@ public class PostRequest {
      * @param categoryId The ID of the category to which the post belongs
      */
     public PostRequest(String title, String content, UUID categoryId) {
-        this.postTitle = title;
-        this.postContent = content;
-        this.postCategoryId = categoryId;
+        this.title = title;
+        this.content = content;
+        this.categoryId = categoryId;
     }
 
     /**
@@ -51,17 +51,17 @@ public class PostRequest {
      *
      * @return The title of the post
      */
-    public String getPostTitle() {
-        return postTitle;
+    public String getTitle() {
+        return title;
     }
 
     /**
      * Sets the title of the post.
      *
-     * @param postTitle The title of the post
+     * @param title The title of the post
      */
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -69,17 +69,17 @@ public class PostRequest {
      *
      * @return The content of the post
      */
-    public String getPostContent() {
-        return postContent;
+    public String getContent() {
+        return content;
     }
 
     /**
      * Sets the content of the post.
      *
-     * @param postContent The content of the post
+     * @param content The content of the post
      */
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     /**
@@ -87,17 +87,17 @@ public class PostRequest {
      *
      * @return The ID of the category
      */
-    public UUID getPostCategoryId() {
-        return postCategoryId;
+    public UUID getCategoryId() {
+        return categoryId;
     }
 
     /**
      * Sets the ID of the category to which the post belongs.
      *
-     * @param postCategoryId The ID of the category
+     * @param categoryId The ID of the category
      */
-    public void setPostCategoryId(UUID postCategoryId) {
-        this.postCategoryId = postCategoryId;
+    public void setCategoryId(UUID categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

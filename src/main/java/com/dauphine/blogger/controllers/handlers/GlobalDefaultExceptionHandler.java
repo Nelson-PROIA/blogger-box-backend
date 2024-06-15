@@ -3,11 +3,15 @@ package com.dauphine.blogger.controllers.handlers;
 import com.dauphine.blogger.exceptions.CategoryAlreadyExistsException;
 import com.dauphine.blogger.exceptions.CategoryNotFoundByIdException;
 import com.dauphine.blogger.exceptions.PostNotFoundByIdException;
+import org.apache.coyote.Response;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * <p>
@@ -24,6 +28,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
 
+    /**
+     * The logger object to log the exception that occur during runtime.
+     */
     private static final Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
     /**
@@ -55,6 +62,22 @@ public class GlobalDefaultExceptionHandler {
 
         return ResponseEntity
                 .status(400)
+                .body(e.getMessage());
+    }
+
+    /**
+     * Exception handler for PSQLException.
+     * Logs the warning message and returns a ResponseEntity with a 409 status code.
+     *
+     * @param e The exception to handle
+     * @return ResponseEntity containing the status code and error message
+     */
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<String> handleConflictException(Exception e) {
+        logger.warn("[CONFLICT] {}", e.getMessage());
+
+        return ResponseEntity
+                .status(409)
                 .body(e.getMessage());
     }
 
