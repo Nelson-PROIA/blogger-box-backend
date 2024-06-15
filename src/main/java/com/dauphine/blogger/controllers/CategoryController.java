@@ -138,7 +138,7 @@ public class CategoryController {
      * @throws CategoryNotFoundByIdException  if the category with the specified ID is not found
      * @throws CategoryAlreadyExistsException if a category with the same name already exists
      */
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @Operation(
             summary = "Update an existing category",
             description = "Endpoint for updating an existing category"
@@ -148,7 +148,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Category not found")
     })
-    public ResponseEntity<Category> patchCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) throws CategoryNotFoundByIdException, CategoryAlreadyExistsException {
+    public ResponseEntity<Category> putCategoryName(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) throws CategoryNotFoundByIdException, CategoryAlreadyExistsException {
         final Category category = categoryService.updateCategoryName(id, categoryRequest.getName());
 
         return ResponseEntity.ok(category);
