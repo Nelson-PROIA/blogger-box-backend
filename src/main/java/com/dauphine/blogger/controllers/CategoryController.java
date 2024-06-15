@@ -140,8 +140,8 @@ public class CategoryController {
      */
     @PostMapping("/{id}")
     @Operation(
-            summary = "Update the name of a category",
-            description = "Endpoint for updating the name of a category"
+            summary = "Update an existing category",
+            description = "Endpoint for updating an existing category"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Category updated successfully"),
