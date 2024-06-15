@@ -1,7 +1,6 @@
 # Blogger Application
 
 The Blogger Application is a web application designed to provide users with a platform to create, manage, and view blog posts. It allows users to create new posts, categorize them, and perform various operations such as updating or deleting posts. Additionally, users can browse through existing posts and filter them based on categories.
-Functionality
 
 ## The application consists of several components:
 
