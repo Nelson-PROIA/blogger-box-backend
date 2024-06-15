@@ -172,7 +172,7 @@ public class CategoryControllerTest {
 
         when(categoryService.updateCategoryName(categoryId, newCategoryName)).thenReturn(updatedCategory);
 
-        ResponseEntity<Category> response = categoryController.patchCategoryName(categoryId, categoryRequest);
+        ResponseEntity<Category> response = categoryController.putCategoryName(categoryId, categoryRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(updatedCategory, response.getBody());
@@ -192,7 +192,7 @@ public class CategoryControllerTest {
 
         when(categoryService.updateCategoryName(categoryId, newCategoryName)).thenThrow(new CategoryNotFoundByIdException(categoryId));
 
-        assertThrows(CategoryNotFoundByIdException.class, () -> categoryController.patchCategoryName(categoryId, categoryRequest));
+        assertThrows(CategoryNotFoundByIdException.class, () -> categoryController.putCategoryName(categoryId, categoryRequest));
     }
 
     /**
